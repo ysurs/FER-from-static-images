@@ -3,12 +3,24 @@ from PIL import Image
 import torch
 from torchvision import transforms
 from torch.utils.data import Dataset, DataLoader
+import numpy as np
 
 
 class ckplus(Dataset):
-    def __init__(self, root_dir, transform=None):
+    
+    def transform(self, image):
+        resize_transform = transforms.Compose([
+        transforms.ToPILImage(),  # Convert to PIL image
+        transforms.Resize((300, 300), interpolation=Image.BILINEAR),  # Resize to 300x300
+        transforms.ToTensor()  # Convert back to tensor, now the shape becomes (3,300,300)
+        ])
+        tensor=resize_transform(image)
+        tensor=tensor.permute(1,2,0) # converting to the form (h,w,c)
+        return tensor
+        
+    
+    def __init__(self, root_dir):
         self.root_dir = root_dir
-        self.transform = transform
         self.classes = sorted(os.listdir(root_dir))
         self.class_to_idx = {cls_name: idx for idx, cls_name in enumerate(self.classes)}
         
@@ -21,15 +33,22 @@ class ckplus(Dataset):
         
     def __len__(self):
         return len(self.data)
-    
-    def transform(self, image):
-        pass
+        
+    # To make a gray scaled image into a 3 channeled image
+    def add_channels(self,image):
+        image=np.array(image)
+        image=np.stack((image,)*3,axis=-1)
+        return image
+        
 
     def __getitem__(self, idx):
         img_path, label = self.data[idx]
         img = Image.open(img_path).convert('L')  
         
-        # if self.transform:
-        #     img = self.transform(img)
+        # Adding channels
+        img=self.add_channels(img)
+       
+        # Transforming the image by resizing using bilinear interpolation
+        img = self.transform(img)
             
         return img, label
