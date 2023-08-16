@@ -11,11 +11,10 @@ class ckplus(Dataset):
     def transform(self, image):
         resize_transform = transforms.Compose([
         transforms.ToPILImage(),  # Convert to PIL image
-        transforms.Resize((300, 300), interpolation=Image.BILINEAR),  # Resize to 300x300
-        transforms.ToTensor()  # Convert back to tensor, now the shape becomes (3,300,300)
+        transforms.Resize((300, 300), interpolation=Image.BILINEAR)  # Resize to 300x300
         ])
-        tensor=resize_transform(image)
-        tensor=tensor.permute(1,2,0) # converting to the form (h,w,c)
+        image=np.array(resize_transform(image))
+        tensor=torch.tensor(image)
         return tensor
         
     
