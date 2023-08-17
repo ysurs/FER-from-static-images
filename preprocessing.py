@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from dataset import ckplus
 from torchvision.models.detection import ssd
+from torchvision import transforms
 
 
 class preprocessing_image(nn.Module):
@@ -23,7 +24,7 @@ class preprocessing_image(nn.Module):
     
     def face_detection(self,image):
         # Get the pretrained model on COCO dataset
-        detection_model=ssd.ssd300_vgg16(pretrained=True)
+        detection_model=ssd.ssd300_vgg16(weights=ssd.SSD300_VGG16_Weights.DEFAULT)
         image=transforms.ToTensor()(image)
         
         detection_model.eval()
@@ -31,12 +32,13 @@ class preprocessing_image(nn.Module):
             detections=detection_model([image])
         
         x, y, x_max, y_max = detections[0]['boxes'][0].tolist()
-        face = transforms.ToPILImage()(image_test).crop((x, y, x_max, y_max))
+        face = transforms.ToPILImage()(image).crop((x, y, x_max, y_max))
         face=torch.tensor(np.array(face))
         return face
         
         
-    def landmark_annotation():
+    def landmark_annotation(self,image):
+        # To use dlib, have figured out in check.ipynb
         pass
 
     def forward(self,images):
