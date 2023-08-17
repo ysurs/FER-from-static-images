@@ -1,3 +1,4 @@
 /CK+_Complete
 __pycache__
 .DS_store
+*.dat
