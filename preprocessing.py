@@ -7,11 +7,7 @@ from torchvision.models.detection import ssd
 from torchvision import transforms
 
 
-class preprocessing_image(nn.Module):
-    
-    def __init__(self,):
-        super(preprocessing_image, self).__init__()
-        
+class preprocessing_image:
     
     def clahe(self,image):
         image=np.array(image)
@@ -41,8 +37,6 @@ class preprocessing_image(nn.Module):
         # To use dlib, have figured out in check.ipynb
         pass
 
-    def forward(self,images):
-        pass
     
     
 def main():
