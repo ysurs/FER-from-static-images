@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 
 
-
 # class and functions for feature extraction
 class feature_extractor(nn.Module):
     
@@ -52,9 +51,6 @@ class feature_extractor(nn.Module):
         extracted_features=self.block_sequence(input)
         feature_vector=self.global_average_pooling(extracted_features).reshape(1,-1)
         return feature_vector
-    
-    
-
 
 
 # Class for creating the header layer for landmark localisation
@@ -85,7 +81,31 @@ class landmark_localization(nn.Module):
 
 
 # class for expression classification
-
+class expression_classification(nn.Module):
     
+    def __init__(self,no_of_expressions):
+        
+        super(expression_classification,self).__init__()
+        
+        self.layers=nn.Sequential(
+            nn.Linear(128,128),
+            nn.Linear(128,128),
+            nn.Linear(128,no_of_expressions),
+            nn.Softmax(dim=1)
+        )
+        self.expression_classification_initialization()
+        
+        
+    def expression_classification_initialization(self):
+        
+        for layer in self.layers:
+            if isinstance(layer,nn.Linear):
+                nn.init.xavier_uniform_(layer.weight)
+                if layer.bias is not None:
+                    nn.init.constant_(layer.bias, 0)
+                
+    
+    def forward(self,vector):
+        return self.layers(vector)
     
     
