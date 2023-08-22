@@ -49,7 +49,9 @@ class feature_extractor(nn.Module):
     
     def forward(self,input):
         extracted_features=self.block_sequence(input)
-        feature_vector=self.global_average_pooling(extracted_features).reshape(1,-1)
+        feature_vector=self.global_average_pooling(extracted_features)
+        no_of_images=feature_vector.shape[0]    # extracting no of images in batch
+        feature_vector=feature_vector.view(no_of_images,-1)
         return feature_vector
 
 
