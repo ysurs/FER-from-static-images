@@ -5,6 +5,7 @@ import cv2
 from dataset import ckplus
 from torchvision.models.detection import ssd
 from torchvision import transforms
+import dlib
 
 
 class preprocessing_image:
@@ -35,7 +36,12 @@ class preprocessing_image:
         
     def landmark_annotation(self,image):
         # To use dlib, have figured out in check.ipynb
-        pass
+        pretrained_model="shape_predictor_68_face_landmarks.dat"
+        detector = dlib.get_frontal_face_detector()
+        predictor = dlib.shape_predictor(pretrained_model)
+        
+        detect_face=detector(image,0)
+        return detect_face
 
     
     
