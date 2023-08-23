@@ -1,0 +1,5 @@
+Plan:
+
+1. To finish annotation code.
+2. To complete the data pipeline.
+3. To complete the training code for ensemble, baseline model, full fine tuning.
