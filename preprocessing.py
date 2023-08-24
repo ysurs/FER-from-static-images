@@ -6,6 +6,9 @@ from dataset import ckplus
 from torchvision.models.detection import ssd
 from torchvision import transforms
 import dlib
+from imutils import face_utils
+from PIL import Image
+from IPython.display import display
 
 
 class preprocessing_image:
@@ -30,18 +33,29 @@ class preprocessing_image:
         
         x, y, x_max, y_max = detections[0]['boxes'][0].tolist()
         face = transforms.ToPILImage()(image).crop((x, y, x_max, y_max))
-        face=torch.tensor(np.array(face))
-        return face
+        return np.array(face)
         
         
     def landmark_annotation(self,image):
+        # The image passed is a numpy array
         # To use dlib, have figured out in check.ipynb
         pretrained_model="shape_predictor_68_face_landmarks.dat"
         detector = dlib.get_frontal_face_detector()
         predictor = dlib.shape_predictor(pretrained_model)
         
+        # This detects the face in the image
         detect_face=detector(image,0)
-        return detect_face
+        
+        # At present, this we are considering only 1 image, will add support for images in batches
+        annotations=predictor(image,detect_face[0])
+        annotations = face_utils.shape_to_np(annotations)
+        
+        for (x,y) in annotations:
+            cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
+            
+        image_pil = Image.fromarray(image)
+        display(image_pil)
+        return 
 
     
     
