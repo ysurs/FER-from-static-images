@@ -57,13 +57,3 @@ class preprocessing_image:
         display(image_pil)
         return 
 
-    
-    
-def main():
-    data=ckplus('./CK+_Complete/')
-    
-    
-    
-
-if __name__ == '__main__':
-    main()
