@@ -33,6 +33,8 @@ class preprocessing_image:
         
         x, y, x_max, y_max = detections[0]['boxes'][0].tolist()
         face = transforms.ToPILImage()(image).crop((x, y, x_max, y_max))
+        face= transforms.Resize((160, 160), interpolation=Image.BILINEAR)(face)
+        
         return np.array(face)
         
         
@@ -50,10 +52,13 @@ class preprocessing_image:
         annotations=predictor(image,detect_face[0])
         annotations = face_utils.shape_to_np(annotations)
         
+        
+        ### Use below logic for actual face annotation
         for (x,y) in annotations:
             cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
             
         image_pil = Image.fromarray(image)
         display(image_pil)
+        
         return 
 
