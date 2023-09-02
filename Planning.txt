@@ -1,6 +1,4 @@
 To do:
 
 * Read the paper again to get a better picture of the flow
-1. To complete the data pipeline i.e figuring out how to prepare the dataset for landmark annotation
-2. To preprocess images in batches or one by one.
-2. To complete the training code for ensemble, baseline model, full fine tuning.
+1. figuring out baseline pipeline and augmentation.
