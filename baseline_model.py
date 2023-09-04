@@ -25,9 +25,9 @@ class baseline(nn.Module):
     def forward(self,image_batch):
         image_after_clahe=self.preprocessing_object.clahe(image_batch)
         face_detection=self.preprocessing_object.face_detection(image_after_clahe)
-        # feature_vector=self.baseline_feature_extractor(face_detection)
+        feature_vector=self.baseline_feature_extractor(face_detection)
         # expression=self.baseline_expression_classification(feature_vector)
-        return face_detection
+        return feature_vector
         
     
     
