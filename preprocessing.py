@@ -34,7 +34,7 @@ class preprocessing_image:
         x, y, x_max, y_max = detections[0]['boxes'][0].tolist()
         face = transforms.ToPILImage()(image).crop((x, y, x_max, y_max))
         face= transforms.Resize((160, 160), interpolation=Image.BILINEAR)(face)
-        
+        # face= transforms.ToTensor()(face)
         return np.array(face)
         
         
