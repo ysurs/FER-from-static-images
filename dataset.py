@@ -14,8 +14,7 @@ class ckplus(Dataset):
         transforms.Resize((300, 300), interpolation=Image.BILINEAR)  # Resize to 300x300
         ])
         image=np.array(resize_transform(image))
-        tensor=torch.tensor(image)
-        return tensor
+        return image
         
     
     def __init__(self, root_dir):
