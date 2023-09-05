@@ -14,6 +14,10 @@ Implementation notes:
 3. Default implementation is not doing bilinear interpolation- I have included that in mine. After including it in the authors code,
 my logic in dataset.py and default code gives same result.
 4. clahe is also implemented for all images- take a for loop and implement clahe for each image in the dataset.
+5. I have used: ssd.ssd300_vgg16(weights=ssd.SSD300_VGG16_Weights.DEFAULT) for detecting face crops- need to confirm this with the authors
+6. face crop detection is taking too much time- have to confirm which method was adopted by the authors.
+7. I have added a main function in preprocessing.py. The idea is to perform all clahe and face crop detection for all images
+and then use the resulting stored numpy arrays for the model
 
 
 
