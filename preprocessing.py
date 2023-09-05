@@ -16,8 +16,8 @@ class preprocessing_image:
     def clahe(self,image):
         image=np.array(image)
         # creating object to perform clahe
-        clahe = cv2.createCLAHE(clipLimit=1)
-        image = clahe.apply(image[:,:,0])+20     # cliplimit and brightness can be tuned
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        image = clahe.apply(image[:,:,0])     # cliplimit and brightness can be tuned
         image=np.stack((image,)*3,axis=-1)
         return image
     
@@ -34,7 +34,6 @@ class preprocessing_image:
         x, y, x_max, y_max = detections[0]['boxes'][0].tolist()
         face = transforms.ToPILImage()(image).crop((x, y, x_max, y_max))
         face= transforms.Resize((160, 160), interpolation=Image.BILINEAR)(face)
-        # face= transforms.ToTensor()(face)
         return np.array(face)
         
         
@@ -57,8 +56,5 @@ class preprocessing_image:
         for (x,y) in annotations:
             cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
             
-        image_pil = Image.fromarray(image)
-        display(image_pil)
-        
-        return 
+        return image
 
