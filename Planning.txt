@@ -1,4 +1,29 @@
-To do:
+Interpretation:
 
-* Read the paper again to get a better picture of the flow
-1. figuring out baseline pipeline and augmentation.
+1. Preprocessing of images is being done intially.
+2. Batching etc is being done after that.
+
+
+
+
+
+Implementation notes:
+
+1. All images must be preprocessed first- all 1635 images must be preprocessed- no batching required.
+2. ckplus dataset is different from the paper.
+3. Default implementation is not doing bilinear interpolation- I have included that in mine. After including it in the authors code,
+my logic in dataset.py and default code gives same result.
+4. clahe is also implemented for all images- take a for loop and implement clahe for each image in the dataset.
+
+
+
+
+Comments:
+
+1. About CK+ dataset, will it be provided or should It be downloaded- I have downloaded it.
+2. In my dataset, only 7 expressions are present.
+
+
+
+Question:
+1. what is the reason for clahe parameters- why those specific numbers
