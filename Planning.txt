@@ -18,6 +18,9 @@ my logic in dataset.py and default code gives same result.
 6. face crop detection is taking too much time- have to confirm which method was adopted by the authors.
 7. I have added a main function in preprocessing.py. The idea is to perform all clahe and face crop detection for all images
 and then use the resulting stored numpy arrays for the model
+8. face crop detection has been refactored- loaded model in __init__ method hence now the time taken is less.
+9. Now i have all images in my dataset of shape (160,160,3)
+
 
 
 
@@ -31,3 +34,4 @@ Comments:
 
 Question:
 1. what is the reason for clahe parameters- why those specific numbers
+2. is my face detection method right ?
