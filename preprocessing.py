@@ -13,23 +13,25 @@ import h5py
 
 class preprocessing_image:
     
+    def __init__(self,clipLimit=2.0,tileGridSize=(8,8)):
+        self.clahe_object=cv2.createCLAHE(clipLimit=clipLimit, tileGridSize=tileGridSize)
+        self.detection_model=ssd.ssd300_vgg16(weights=ssd.SSD300_VGG16_Weights.DEFAULT)
+        self.detection_model.eval()
+    
     def clahe(self,image):
         image=np.array(image)
-        # creating object to perform clahe
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-        image = clahe.apply(image[:,:,0])     # cliplimit and brightness can be tuned
+        image = self.clahe_object.apply(image[:,:,0])     # cliplimit and brightness can be tuned
         image=np.stack((image,)*3,axis=-1)
         return image
     
     
     def face_detection(self,image):
-        # Get the pretrained model on COCO dataset- This impelementation is very slow- needs change
-        detection_model=ssd.ssd300_vgg16(weights=ssd.SSD300_VGG16_Weights.DEFAULT)
+        
         image=transforms.ToTensor()(image)
         
-        detection_model.eval()
+        
         with torch.no_grad():
-            detections=detection_model([image])
+            detections=self.detection_model([image])
         
         x, y, x_max, y_max = detections[0]['boxes'][0].tolist()     # A person will be detected here and so we have indexed using [0]
         face = transforms.ToPILImage()(image).crop((x, y, x_max, y_max))
@@ -86,15 +88,24 @@ if __name__ == "__main__":
     for i in range(total_ckplus_images.shape[0]):
         images_after_clahe.append(preprocessing_object.clahe(total_ckplus_images[i]))
     
-    images_after_clahe=np.array(images_after_clahe)
+    images_after_clahe=np.array(images_after_clahe,dtype=np.uint8)
+    
+    # Getting face crops from all the images
+    face_crops=[]
+    
+    for i in range(images_after_clahe.shape[0]):
+        face_crops.append(preprocessing_object.face_detection(images_after_clahe[i]))
     
     
-    # Storing numpy arrays for image and labels in using h5py
-    with h5py.File('images_after_clahe.h5', 'w') as file:
-         dataset = file.create_dataset('after_clahe', data=images_after_clahe)
+        
     
-    with h5py.File('labels.h5', 'w') as file:
-         dataset = file.create_dataset('image_labels', data=total_ckplus_labels)
+    
+    # # Storing numpy arrays for image and labels in using h5py
+    # with h5py.File('images_after_clahe.h5', 'w') as file:
+    #      dataset = file.create_dataset('after_clahe', data=images_after_clahe)
+    
+    # with h5py.File('labels.h5', 'w') as file:
+    #      dataset = file.create_dataset('image_labels', data=total_ckplus_labels)
     
         
     
