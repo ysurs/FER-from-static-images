@@ -22,6 +22,7 @@ and then use the resulting stored numpy arrays for the model
 9. Now i have all images in my dataset of shape (160,160,3)
 10. face detection is not working on images: './CK+_Complete/surprise/S124_001_00000014.png' and './CK+_Complete/surprise/S124_001_00000013.png'
 which are at index 1576 and 1630 respectively. It is also not working on image at index 1629
+11. Not sure about the train validation split
 
 
 
