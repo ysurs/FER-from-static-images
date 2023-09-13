@@ -65,11 +65,9 @@ class preprocessing_image:
         # This detects the face in the image
         
         detect_face=self.face_detector_landmark(image,0)
-        try:
-            annotations=self.predictor_landmark(image,detect_face[0])
-        except:
-            print("No")
-            return
+    
+        annotations=self.predictor_landmark(image,detect_face[0])
+       
         annotations = face_utils.shape_to_np(annotations)
         
         if self.display_annotated==True:
@@ -79,65 +77,7 @@ class preprocessing_image:
         return annotations
 
 
-if __name__ == "__main__":
 
-    # Creating an instance of the class for ckplus dataset
-    ckplus_dataset=ckplus('./CK+_Complete/')
-    
-    total_ckplus_images=[]
-    total_ckplus_labels=[]
-
-    # Getting total images and labels
-    for i in range(ckplus_dataset.__len__()):
-        total_ckplus_images.append(ckplus_dataset.__getitem__(i)[0])
-        total_ckplus_labels.append(ckplus_dataset.__getitem__(i)[1])
-    
-    # Changing into numpy arrays
-    total_ckplus_images=np.array(total_ckplus_images)
-    total_ckplus_labels=np.array(total_ckplus_labels)
-    
-    
-    # Object for preprocessing- everything from clahe, face detection
-    preprocessing_object=preprocessing_image()
-    
-    # Applying clahe to all the images
-    images_after_clahe=[]
-    
-    for i in range(total_ckplus_images.shape[0]):
-        images_after_clahe.append(preprocessing_object.clahe(total_ckplus_images[i]))
-    
-    images_after_clahe=np.array(images_after_clahe,dtype=np.uint8)
-    
-    # Getting face crops from all the images
-    face_crops=[]
-    
-    for i in range(images_after_clahe.shape[0]):
-        face_crops.append(preprocessing_object.face_detection(images_after_clahe[i]))
-    
-    # Removing images for which detection is not working : index: 1576 and 1630
-    face_crops.pop(1576)
-    face_crops.pop(1630)
-    face_crops.pop(1629)
-    
-    image_landmarks=[]
-    
-    for i in range(len(face_crops)):
-        image_landmarks.append(preprocessing_object.landmark_annotation(face_crops[i]))
-        
-    face_crops=np.array(face_crops).astype('float64')
-    
-    normalised_images=normalise_image(face_crops)
-    
-    print(normalised_images.shape)
-    print(len(image_landmarks))
-
-    
-    # # Storing numpy arrays for image and labels in using h5py
-    # with h5py.File('images_after_clahe.h5', 'w') as file:
-    #      dataset = file.create_dataset('after_clahe', data=images_after_clahe)
-    
-    # with h5py.File('labels.h5', 'w') as file:
-    #      dataset = file.create_dataset('image_labels', data=total_ckplus_labels)
     
         
     
