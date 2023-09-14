@@ -22,7 +22,10 @@ and then use the resulting stored numpy arrays for the model
 9. Now i have all images in my dataset of shape (160,160,3)
 10. face detection is not working on images: './CK+_Complete/surprise/S124_001_00000014.png' and './CK+_Complete/surprise/S124_001_00000013.png'
 which are at index 1576 and 1630 respectively. It is also not working on image at index 1629
-11. Not sure about the train validation split
+11. Not sure about the train validation split.
+12. The author's default implementation has only 1 dense layer but in paper there are 2 dense layers, i have included 2
+13. In my callback.py file, i am only storing the best model for now, unlike creating checkpoint for each epochs of improvments
+
 
 
 
@@ -32,9 +35,14 @@ Comments:
 
 1. About CK+ dataset, will it be provided or should It be downloaded- I have downloaded it.
 2. In my dataset, only 7 expressions are present.
+3. the landmark annotation part is incomplete, rather i am yet to figure out how to incorporate indices into it
+4. the 2*start_index part is important- need to figure this out
 
 
 
 Question:
 1. what is the reason for clahe parameters- why those specific numbers
 2. is my face detection method right ?
+3. not sure about recovery path, why used ?
+4. what is train and validation split ?
+
