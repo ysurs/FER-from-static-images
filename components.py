@@ -28,9 +28,8 @@ class feature_extractor(nn.Module):
             if i%2==0:
                 for layer in self.block_sequence[i]:
                     if isinstance(layer,nn.Conv2d):
-                        nn.init.kaiming_normal_(layer.weight, mode='fan_in', nonlinearity='relu')
-                        if layer.bias is not None:
-                            nn.init.constant_(layer.bias, 0)
+                        nn.init.kaiming_uniform_(layer.weight, mode='fan_in', nonlinearity='relu')
+                        
         
         
         
@@ -74,8 +73,7 @@ class landmark_localization(nn.Module):
         
         for layer in self.dense_layers:
             nn.init.xavier_uniform_(layer.weight)
-            if layer.bias is not None:
-                nn.init.constant_(layer.bias, 0)
+            
                 
     
     def forward(self,vector):
@@ -112,3 +110,14 @@ class expression_classification(nn.Module):
         return self.layers(vector)
     
     
+
+
+
+class landmark_model(nn.Module):
+    def __init__(self,feature_extractor_in_channels, feature_extractor_out_channels, no_of_landmarks):
+        super(landmark_model,self).__init__()
+        self.feature_extractor_landmark=feature_extractor(feature_extractor_in_channels,feature_extractor_out_channels)
+        self.landmark_detection=landmark_localization(no_of_landmarks)
+        
+    def forward(self,input):
+        return self.landmark_detection(self.feature_extractor_landmark(input))
