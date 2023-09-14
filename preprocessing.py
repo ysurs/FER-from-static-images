@@ -73,6 +73,8 @@ class preprocessing_image:
         if self.display_annotated==True:
             self.visualize_face(image,annotations)
         
+        annotations=annotations.astype('float64').reshape((-1,))
+        
         annotations = annotations/160
         return annotations
 
