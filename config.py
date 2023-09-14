@@ -5,7 +5,10 @@ batch_size_landmark = 32
 epochs_landmark = 10
 steps_per_epoch_landmark = 30
 checkpoint_model_landmark = f'checkpoint_landmarks_model_{landmark_annotation_model}'
-filename_reg_lr = f"logs_dict_lr_{lr_model_name}_test1.json"
+filename_landmark_model = f"logs_dict_lr_{landmark_annotation_model}.json"
+checkpoint_dir = "/Users/yashsurange/Documents/GitHub/FER-from-static-images/models/checkpoints/ckplus"        
+recovery_dir = "/Users/yashsurange/Documents/GitHub/FER-from-static-images/models/recovery/ckplus"       
+data_path = "/Users/yashsurange/Documents/GitHub/FER-from-static-images/CK+_Complete"    
 # preprocess_input_reg_lr = preprocess_input_v1
 
 
@@ -55,10 +58,9 @@ parameters_landmark_annotation = {
     "batch_size":batch_size_landmark,
     "epochs":epochs_landmark,
     "steps_per_epoch":steps_per_epoch_landmark,
-    "checkpoint":checkpoint_name_reg_lr,
-    # "filename":filename_reg_lr,
+    "checkpoint_dir":checkpoint_dir,
+    "filename":filename_landmark_model,
     "model_name":landmark_annotation_model,
     # "preprocess_input":preprocess_input_reg_lr,
-    # "aug_lr":aug_lr_train,
-    # "landmarks_predictor":ert_landmarks_predictor
+    # "aug_lr":aug_lr_train
 }
