@@ -7,6 +7,10 @@ from torchvision import transforms
 from dataset import ckplus
 from preprocessing import preprocessing_image,normalise_image
 import numpy as np
+from dataset_for_landmark import landmark_dataset
+
+# For reproducibility
+np.random.seed(42)
 
 
 if __name__ == "__main__":
@@ -54,7 +58,7 @@ if __name__ == "__main__":
     for i in range(len(face_crops)):
         image_landmarks.append(preprocessing_object.landmark_annotation(face_crops[i]))
         
-    face_crops=np.array(face_crops).astype('float64')
+    face_crops=np.array(face_crops).astype('float32')
     
     normalised_images=normalise_image(face_crops)
     image_landmarks=np.array(image_landmarks)
@@ -65,6 +69,12 @@ if __name__ == "__main__":
         3. create training script
         4  step 3 and 4 to be done parallely
     '''
+    
+    # creating train and validation split
+    
+    
+    
+    
 
 
     
