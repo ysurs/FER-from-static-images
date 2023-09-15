@@ -121,3 +121,14 @@ class landmark_model(nn.Module):
         
     def forward(self,input):
         return self.landmark_detection(self.feature_extractor_landmark(input))
+    
+
+
+class expression_model(nn.Module):
+    def __init__(self,feature_extractor_in_channels, feature_extractor_out_channels, no_of_expressions):
+        super(expression_model,self).__init__()
+        self.feature_extractor_expression=feature_extractor(feature_extractor_in_channels,feature_extractor_out_channels)
+        self.expression_recognizer=expression_classification(no_of_expressions)
+        
+    def forward(self,input):
+        return self.expression_recognizer(self.feature_extractor_expression(input))
